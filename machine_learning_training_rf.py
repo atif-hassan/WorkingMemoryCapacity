@@ -89,9 +89,9 @@ if __name__ == "__main__":
         ####################################### TRAIN DATA PREPROCESSING ############################################
         print("\nChunk:", chunk, "\n==========================\n")
         if target_type == "dnb1":
-            train_dir = "final_data/DnB1/"+chunk+"/train/"
+            train_dir = "DnB1/"+chunk+"/train/"
         else:
-            train_dir = "final_data/DnB1+DnB2/"+chunk+"/train/"
+            train_dir = "DnB1+DnB2/"+chunk+"/train/"
         file_names = [file_name for file_name in os.listdir(train_dir) if file_name.endswith('.xlsx')]
         file_names.remove("tnh_36.xlsx")#
         file_names.remove("tnh_38.xlsx")#
@@ -197,16 +197,16 @@ if __name__ == "__main__":
         ####################################### TEST DATA PREPROCESSING ############################################
         # Now, preprocess the test data
         if target_type == "dnb1":
-            test_dir = "final_data/DnB1/"+chunk+"/test/"
+            test_dir = "DnB1/"+chunk+"/test/"
         else:
-            test_dir = "final_data/DnB1+DnB2/"+chunk+"/test/"
+            test_dir = "DnB1+DnB2/"+chunk+"/test/"
         file_names = [file_name for file_name in os.listdir(test_dir) if file_name.endswith('.xlsx')]
         X_test_seq, X_test_static, Y_test = list(), list(), list()
         for file_name in tqdm(file_names):
             df = pd.DataFrame(pd.read_excel(test_dir+file_name, engine="calamine"))
             # Get all the static values
-            # static_feats = np.concatenate((df[["baseline_pd", "baseline_gsr"]].values[0], df[["gsr_responses"]].mean()))
-            static_feats = df[["baseline_pd"]].values[0]
+            static_feats = np.concatenate((df[["baseline_pd", "baseline_gsr"]].values[0], df[["gsr_responses"]].mean()))
+            # static_feats = df[["baseline_pd"]].values[0]
             X_test_static.append(static_feats)
             # Drop extra columns
             # df = df.drop(["T2LF", "T2FF", "TSD", "total_responses", "TFD", "NOF", "reaction_time (s)", "baseline_gsr", "baseline_pd", "gsr_responses"], axis=1)
